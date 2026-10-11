@@ -11,7 +11,9 @@ async function connectDB() {
   // Creating the right indexes is your job later in the course.
   await mongoose.connect(uri, { autoIndex: false });
 
-  console.log(`MongoDB connected: ${mongoose.connection.host}/${mongoose.connection.name}`);
+  console.log(
+    `MongoDB connected: ${mongoose.connection.host}/${mongoose.connection.name}`,
+  );
 }
 
 module.exports = connectDB;
