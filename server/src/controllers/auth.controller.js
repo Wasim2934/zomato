@@ -33,8 +33,6 @@ function toPublicUser(user) {
   };
 }
 
-// Creates both tokens, saves the refresh token hash and sets the cookie.
-// Returns the access token so it can be sent in the JSON body.
 async function issueTokens(res, user) {
   const accessToken = generateAccessToken(user);
   const refreshToken = generateRefreshToken(user);
@@ -42,7 +40,6 @@ async function issueTokens(res, user) {
   user.refreshToken = await hashRefreshToken(refreshToken);
   await user.save();
 
-  // Cookie expires at the same moment as the refresh token itself
   const { exp } = jwt.decode(refreshToken);
   res.cookie(REFRESH_COOKIE, refreshToken, { ...getCookieOptions(), expires: new Date(exp * 1000) });
 
@@ -68,7 +65,6 @@ async function register(req, res) {
     return res.status(400).json({ message: "role must be customer or owner" });
   }
 
-  // No unique index yet, so we check for duplicates by hand
   const normalizedEmail = email.trim().toLowerCase();
   const existingUser = await User.findOne({ email: normalizedEmail });
   if (existingUser) {
