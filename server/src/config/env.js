@@ -1,9 +1,6 @@
-// The ONLY place that reads process.env.
-// Every other file does: const env = require("../config/env");
 require("dotenv").config({ quiet: true });
 
-// Reads a positive whole number, or returns the fallback
-function readCount(name, fallback) {
+function readCount(name, fallback) { 
   const value = parseInt(process.env[name], 10);
   return Number.isInteger(value) && value > 0 ? value : fallback;
 }
